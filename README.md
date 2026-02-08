@@ -35,7 +35,7 @@ This project has two NFTs in it. BasicNft.sol is a IPFS based NFT that uses imag
 
 ```
 git clone https://github.com/LightPat/foundry-erc20.git
-cd foundry-fund-me-cu
+cd foundry-nft-collection
 make
 ```
 
