@@ -22,8 +22,8 @@ contract MoodNftTest is Test {
         string memory happySvg = vm.readFile("./img/happy.svg");
         moodNft = new MoodNft(sadSvg, happySvg);
     }
-    
-     function testInitializedCorrectly() public view {
+
+    function testInitializedCorrectly() public view {
         assert(keccak256(abi.encodePacked(moodNft.name())) == keccak256(abi.encodePacked((NFT_NAME))));
         assert(keccak256(abi.encodePacked(moodNft.symbol())) == keccak256(abi.encodePacked((NFT_SYMBOL))));
     }
@@ -41,7 +41,10 @@ contract MoodNftTest is Test {
 
         string memory happySvg = vm.readFile("./img/happy.svg");
 
-        assertEq(keccak256(abi.encodePacked(moodNft.tokenURI(0))), keccak256(abi.encodePacked(moodNft.processImageURIToJson(happySvg))));
+        assertEq(
+            keccak256(abi.encodePacked(moodNft.tokenURI(0))),
+            keccak256(abi.encodePacked(moodNft.processImageURIToJson(happySvg)))
+        );
     }
 
     function testFlipTokenToSad() public {
@@ -53,7 +56,10 @@ contract MoodNftTest is Test {
 
         string memory sadSvg = vm.readFile("./img/sad.svg");
 
-        assert(keccak256(abi.encodePacked(moodNft.tokenURI(0))) == keccak256(abi.encodePacked(moodNft.processImageURIToJson(sadSvg))));
+        assert(
+            keccak256(abi.encodePacked(moodNft.tokenURI(0)))
+                == keccak256(abi.encodePacked(moodNft.processImageURIToJson(sadSvg)))
+        );
     }
 
     function testFlipTokenToHappy() public {
@@ -68,6 +74,9 @@ contract MoodNftTest is Test {
 
         string memory happySvg = vm.readFile("./img/happy.svg");
 
-        assert(keccak256(abi.encodePacked(moodNft.tokenURI(0))) == keccak256(abi.encodePacked(moodNft.processImageURIToJson(happySvg))));
+        assert(
+            keccak256(abi.encodePacked(moodNft.tokenURI(0)))
+                == keccak256(abi.encodePacked(moodNft.processImageURIToJson(happySvg)))
+        );
     }
 }
