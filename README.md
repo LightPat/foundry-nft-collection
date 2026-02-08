@@ -1,66 +1,115 @@
-## Foundry
+# Foundry NFT Collection
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This is a section of the Cyfrin Advanced Foundry Course.
 
-Foundry consists of:
+*[⭐️ Updraft | Foundry NFT Collection](https://updraft.cyfrin.io/courses/advanced-foundry/how-to-create-an-NFT-collection/introduction-to-nfts)*
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+# About
 
-## Documentation
+This project has two NFTs in it. BasicNft.sol is a IPFS based NFT that uses images of a dog. In our case I'm using an image of a pug, but there are others in the repo you can choose if you don't like pugs for some reason. MoodNft.sol stores all its data on chain using SVG files. MoodNft also can change its image using the flipMood() function. Both NFT contracts use openzeppelin's ERC721 contract to inherit from. 
 
-https://book.getfoundry.sh/
+- [Foundry NFT Collection](#foundry-nft-collection)
+- [Getting Started](#getting-started)
+  - [Requirements](#requirements)
+  - [Quickstart](#quickstart)
+- [Usage](#usage)
+  - [Deploy](#deploy)
+  - [Testing](#testing)
+    - [Test Coverage](#test-coverage)
+- [Deployment to a testnet or mainnet](#deployment-to-a-testnet-or-mainnet)
+- [Deploying to a local anvil chain](#deploying-to-local-anvil-chain)
+  - [Estimate gas](#estimate-gas)
 
-## Usage
 
-### Build
+# Getting Started
 
-```shell
-$ forge build
+## Requirements
+
+- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+  - You'll know you did it right if you can run `git --version` and you see a response like `git version x.x.x`
+- [foundry](https://getfoundry.sh/)
+  - You'll know you did it right if you can run `forge --version` and you see a response like `forge 0.2.0 (816e00b 2023-03-16T00:05:26.396218Z)`
+
+
+## Quickstart
+
+```
+git clone https://github.com/LightPat/foundry-erc20.git
+cd foundry-fund-me-cu
+make
 ```
 
-### Test
+# Usage
 
-```shell
-$ forge test
+## Deploy
+
+```
+forge script script/DeployOurToken.s.sol
 ```
 
-### Format
+## Testing
 
-```shell
-$ forge fmt
+```
+forge test
 ```
 
-### Gas Snapshots
+or 
 
-```shell
-$ forge snapshot
+```
+// Only run test functions matching the specified regex pattern.
+
+"forge test -m testFunctionName" is deprecated. Please use 
+
+forge test --match-test testFunctionName
 ```
 
-### Anvil
+or
 
-```shell
-$ anvil
+```
+forge test --fork-url $SEPOLIA_RPC_URL
 ```
 
-### Deploy
+### Test Coverage
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+forge coverage
 ```
 
-### Cast
+# Deploying to local anvil chain
 
-```shell
-$ cast <subcommand>
+```
+make anvil
+make deploy
 ```
 
-### Help
+# Deployment to a testnet or mainnet
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+1. Setup environment variables
+
+You'll want to set your `SEPOLIA_RPC_URL` and `PRIVATE_KEY` as environment variables. You can add them to a `.env` file, similar to what you see in `.env.example`.
+
+- `PRIVATE_KEY`: The private key of your account (like from [metamask](https://metamask.io/)). **NOTE:** FOR DEVELOPMENT, PLEASE USE A KEY THAT DOESN'T HAVE ANY REAL FUNDS ASSOCIATED WITH IT.
+  - You can [learn how to export it here](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key).
+- `SEPOLIA_RPC_URL`: This is url of the sepolia testnet node you're working with. You can get setup with one for free from [Alchemy](https://alchemy.com/?a=673c802981)
+
+Optionally, add your `ETHERSCAN_API_KEY` if you want to verify your contract on [Etherscan](https://etherscan.io/).
+
+2. Get testnet ETH
+
+Head over to [faucets.chain.link](https://faucets.chain.link/) and get some testnet ETH. You should see the ETH show up in your metamask.
+
+3. Deploy
+
 ```
+forge script script/DeployMoodNft.s.sol --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $ETHERSCAN_API_KEY
+```
+
+## Estimate gas
+
+You can estimate how much gas things cost by running:
+
+```
+forge snapshot
+```
+
+And you'll see an output file called `.gas-snapshot`
